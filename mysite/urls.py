@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'excuse.views.home'),
     url(r'^plist/$', 'excuse.views.helloParams'),
+    url(r'^rlist/$', 'excuse.views.registUser'),
 ]

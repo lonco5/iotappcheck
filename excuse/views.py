@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import random 
-from excuse.models import Excuse
+from excuse.models import Excuse,Users
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
 
 def home(request):
     excuses = [
@@ -14,18 +16,31 @@ def home(request):
     excuse = random.choice(Excuse.objects.all())
     return HttpResponse(excuse)
 
-
- 
 def helloParams(request):
     p1 = request.GET.get('p1')
     p2 = request.GET.get('p2')
-    users = {
-    'iot': 'iot', 
-    'smartlife': 'smartlife'
-    };
-    if(p1 in users):
-    	if p2 == users[p1]:
-    		return HttpResponse("pass")
-    return HttpResponse("fail")
 
+    try:
+        if(p2 == Users.objects.get(NAME=p1).PW):
+            return HttpResponse("pass")
+        return HttpResponse("fail")
+    except ObjectDoesNotExist:
+        return HttpResponse("fail")
+
+def registUser(request):
+    p1 = request.GET.get('p1')
+    p2 = request.GET.get('p2')
+    p3 = request.GET.get('p3')
+    p4 = request.GET.get('p4')
+
+    try:
+        Users.objects.create(
+            NAME=p1,
+            MAILBOX=p2,
+            CELL=p3,
+            PW=p4
+            )
+        return HttpResponse("pass")
+    except IntegrityError:
+        return HttpResponse("fail")
 # Create your views here.
