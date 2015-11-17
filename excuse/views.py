@@ -43,4 +43,22 @@ def registUser(request):
         return HttpResponse("pass")
     except IntegrityError:
         return HttpResponse("fail")
+
+def updateUser(request):
+    p1 = request.GET.get('p1')
+    p2 = request.GET.get('p2')
+    p3 = request.GET.get('p3')
+
+    try:
+        _target = Users.objects.get(NAME=p1)
+        if(p2 == _target.PW):
+            _target.PW = p3
+            _target.save()
+            return HttpResponse("pass")
+        return HttpResponse("fail")
+    except ObjectDoesNotExist:
+        return HttpResponse("fail")
+    except IntegrityError:
+        return HttpResponse("fail")
+
 # Create your views here.

@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^$', 'excuse.views.home'),
     url(r'^plist/$', 'excuse.views.helloParams'),
     url(r'^rlist/$', 'excuse.views.registUser'),
+    url(r'^xlist/$', 'excuse.views.updateUser'),
 ]
